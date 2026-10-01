@@ -1,0 +1,134 @@
+:root {
+  --green-tint: #f4fcf6;
+  --green: #39c252;
+  --green-alt: #329c46;
+  --green-opaque: #39c2524d;
+  --red-tint: #fff7f7;
+  --red: #e34e4e;
+  --red-opaque: #e34e4e53;
+  --light-tint: #f9f7fd;
+  --yellow: #e3d74e;
+  --yellow-opaque: #e3d74e4f;
+  --light-tint: #f9f7fd;
+  --accent: #794ee3;
+  --accent-alt: #4e3caa;
+  --accent-opaque: #784ee328;
+  --accent-opaque-1: #784ee377;
+  --dim: #6d657e;
+  --dark: #2e2e30;
+  --shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
+  --radius: 1rem;
+  --radius-1: 0.5rem;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("./assets/fonts/poppins/Poppins-Regular.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("./assets/fonts/poppins/Poppins-Medium.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Poppins";
+  src: url("./assets/fonts/poppins/Poppins-SemiBold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  color: var(--dark);
+  background: radial-gradient(
+    circle at 0% 0%,
+    rgba(52, 147, 255, 0.103) 10%,
+    rgb(209, 194, 247, 0.24) 11%,
+    rgba(209, 194, 247, 0.082) 38%,
+    rgba(255, 255, 255, 1) 45%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+
+.center {
+  display: block;
+  text-align: center;
+}
+.button {
+  width: calc(100% - 2rem);
+  height: 3rem;
+  border: none;
+  border-radius: var(--radius-1);
+  box-shadow: 0px 0px 10px var(--accent-opaque);
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+.accent-btn {
+  background-image: linear-gradient(45deg, var(--accent), var(--accent-alt));
+  color: white;
+}
+.clear-btn {
+  background-color: white;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+}
+.red-btn {
+  background-color: var(--red);
+  color: white;
+}
+.dim {
+  color: var(--dim);
+}
+.accent {
+  color: var(--accent);
+}
+.bold {
+  font-weight: 700;
+}
+.right {
+  text-align: right;
+}
+.bottom-buttons {
+  position: fixed;
+  left: 0;
+  bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+.red-input {
+  border: solid 2px var(--red) !important;
+  background-color: var(--red-tint) !important;
+  color: var(--red) !important;
+}
+.red-input:focus {
+  outline: solid 2px var(--red-opaque) !important;
+  box-shadow: 0px 0px 15px var(--red-opaque) !important;
+}
+.green-input {
+  border: solid 2px var(--green) !important;
+  background-color: var(--green-tint) !important;
+  color: var(--green-alt) !important;
+}
+.green-input:focus {
+  outline: solid 2px var(--green-opaque) !important;
+  box-shadow: 0px 0px 15px var(--green-opaque) !important;
+}
+
+#root {
+  width: 100vw;
+}
