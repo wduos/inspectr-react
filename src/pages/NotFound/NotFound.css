@@ -1,0 +1,19 @@
+.NotFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+.NotFound img {
+  height: 2.5rem;
+}
+.NotFound h1 {
+  font-size: 5rem;
+  line-height: 6rem;
+  color: var(--dim);
+}
+.NotFound p {
+  font-size: 1rem;
+}
