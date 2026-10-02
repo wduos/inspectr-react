@@ -58,6 +58,8 @@ body {
     rgba(255, 255, 255, 1) 65%,
     rgba(255, 255, 255, 1) 100%
   );
+  background-color: white;
+  background-repeat: no-repeat;
   color: var(--dark);
 }
 
@@ -99,8 +101,8 @@ body {
 .bold {
   font-weight: 700;
 }
-.right {
-  text-align: right;
+.opaque {
+  opacity: 0.5;
 }
 .bottom-buttons {
   position: fixed;

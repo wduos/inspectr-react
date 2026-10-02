@@ -44,6 +44,18 @@ export default function Home() {
           />
         ))}
       </section>
+
+      <small className="dim center opaque">
+        Desenvolvido por{" "}
+        <a
+          className="link"
+          href="https://github.com/wduos/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Wendel Duarte
+        </a>
+      </small>
     </div>
   );
 }
