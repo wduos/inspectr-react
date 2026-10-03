@@ -16,7 +16,7 @@
   --accent-opaque-1: #784ee377;
   --dim: #6d657e;
   --dark: #2e2e30;
-  --shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
+  --shadow: 2px 2px 3px rgba(0, 0, 0, 0.05);
   --radius: 1rem;
   --radius-1: 0.5rem;
 }
@@ -52,7 +52,7 @@ body {
   height: 100vh;
   background: radial-gradient(
     circle at 0% 0%,
-    rgba(52, 147, 255, 0.103) 20%,
+    rgba(52, 106, 255, 0.103) 20%,
     rgb(209, 194, 247, 0.24) 21%,
     rgba(209, 194, 247, 0.082) 58%,
     rgba(255, 255, 255, 1) 65%,
@@ -60,7 +60,26 @@ body {
   );
   background-color: white;
   background-repeat: no-repeat;
+  font-weight: 500;
   color: var(--dark);
+}
+
+input[type="text"] {
+  margin-block: 1rem;
+  width: 100%;
+  padding: 1rem;
+  border: solid 1px rgba(0, 0, 0, 0.03);
+  border-radius: var(--radius-1);
+  outline: solid 2px transparent;
+  outline-offset: 0rem;
+  transition: 0.1s ease-in;
+  transition-property: outline-offset, outline;
+  font-size: 0.8rem;
+  box-shadow: var(--shadow);
+}
+input[type="text"]:focus {
+  outline: solid 2px var(--accent-opaque-1);
+  outline-offset: -0.25rem;
 }
 
 .center {
@@ -137,4 +156,19 @@ body {
   text-decoration: none;
   font-weight: 700;
   color: var(--accent);
+}
+.page-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.page-subtitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.page-instructions {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
 }
