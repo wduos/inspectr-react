@@ -199,6 +199,7 @@ input[type="text"]:focus {
   transition: 0.1s ease-in;
   transition-property: outline-offset, outline;
   user-select: none;
+  box-shadow: var(--shadow);
 }
 .bottom-btns-wrapper a:focus,
 .bottom-btns-wrapper a:focus-visible,
