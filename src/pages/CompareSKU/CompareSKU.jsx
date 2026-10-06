@@ -49,7 +49,7 @@ export default function CompareSKU() {
           type="text"
           value={sku}
           onChange={(e) => handleSetSKU(e)}
-          inputMode="numeric"
+          inputMode="none"
           autoComplete="off"
           autoCorrect="off"
           spellCheck="off"
