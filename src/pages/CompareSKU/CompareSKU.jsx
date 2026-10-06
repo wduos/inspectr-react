@@ -1,9 +1,34 @@
 import "./CompareSKU.css";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export default function CompareSKU() {
+  const [sku, setSku] = useState("");
   const [usePrefix, setUsePrefix] = useState(true);
+
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [usePrefix]);
+
+  function handleSetSKU(e) {
+    let value = e.target.value.replace(/[^0-9]/g, "");
+
+    const maxLength = usePrefix ? 11 : 8;
+    if (value.length > maxLength) {
+      value = value.slice(0, maxLength);
+    }
+
+    setSku(value);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    console.log(sku);
+  }
 
   return (
     <div className="CompareSKU">
@@ -17,14 +42,32 @@ export default function CompareSKU() {
       <p className="page-instructions">
         Escaneie a SKU de uma caixa do pallet para iniciar a conferência.
       </p>
-      <input type="text" placeholder={usePrefix ? "24010221234" : "10221234"} />
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <input
+          ref={inputRef}
+          type="text"
+          value={sku}
+          onChange={(e) => handleSetSKU(e)}
+          inputMode="numeric"
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck="off"
+          pattern={usePrefix ? "24010[0-9]{6}" : "10[0-9]{6}"}
+          placeholder={usePrefix ? "Ex.: 24010123456" : "Ex.: 10123456"}
+          maxLength={usePrefix ? "11" : "8"}
+          required
+        />
+      </form>
 
       <div className="switch-label-wrapper">
         <button
           className={usePrefix ? "switch-active" : ""}
           id="sku-prefix-switch"
           type="button"
-          onClick={() => setUsePrefix(!usePrefix)}
+          onClick={() => {
+            setUsePrefix(!usePrefix);
+            setSku("");
+          }}
         ></button>
         <label htmlFor="sku-prefix-switch">Usar prefixo</label>
       </div>

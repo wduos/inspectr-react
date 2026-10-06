@@ -35,8 +35,9 @@ export default function Home() {
       </header>
 
       <section className="item-list">
-        {pageList.map((page) => (
+        {pageList.map((page, index) => (
           <HomeButton
+            key={index}
             title={page.name}
             icon={page.svg}
             description={page.description}
