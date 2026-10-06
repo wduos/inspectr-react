@@ -8,10 +8,10 @@ export default function App() {
   return (
     <>
       <Routes>
-        <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
         <Route path="/compare-sku" element={<Compare />} />
         <Route path="/list-sku" element={<ListSKU />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
