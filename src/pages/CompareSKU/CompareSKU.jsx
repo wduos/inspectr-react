@@ -27,6 +27,7 @@ export default function CompareSKU() {
 
   function handleSubmit(event) {
     event.preventDefault();
+
     console.log(sku);
   }
 
