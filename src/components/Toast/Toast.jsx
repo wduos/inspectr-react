@@ -4,10 +4,13 @@ export default function Toast({ title, description, type = "success" }) {
   return (
     <div className="Toast">
       <div>
-        <h2>Título</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam esse.
-        </p>
+        <div>
+          <svg viewBox="0 0 24 24">
+            <path d="m12 1c-7.71 0-11 3.29-11 11s3.29 11 11 11 11-3.29 11-11-3.29-11-11-11zm3.707 13.293c.391.391.391 1.023 0 1.414s-1.023.391-1.414 0l-2.293-2.293-2.293 2.293c-.391.391-1.023.391-1.414 0s-.391-1.023 0-1.414l2.293-2.293-2.293-2.293c-.391-.391-.391-1.023 0-1.414s1.023-.391 1.414 0l2.293 2.293 2.293-2.293c.391-.391 1.023-.391 1.414 0s.391 1.023 0 1.414l-2.293 2.293z" />
+          </svg>
+          <h2>{title}</h2>
+        </div>
+        <p>{description}</p>
       </div>
     </div>
   );

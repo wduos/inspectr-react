@@ -78,7 +78,11 @@ export default function Compare() {
         <Link to="/">Voltar</Link>
       </div>
 
-      <Toast />
+      <Toast
+        title="Título da notificação"
+        description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam esse."
+        type="error"
+      />
     </div>
   );
 }

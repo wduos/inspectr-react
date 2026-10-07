@@ -1,24 +1,33 @@
 .Toast {
+  display: none;
   position: absolute;
-  top: 0;
+  top: 0.5rem;
   left: 0;
   width: 100%;
-  height: 5rem;
-  padding: 0.5rem 3rem;
+  padding: 0.5rem 1rem;
 }
 .Toast > div {
   width: 100%;
   padding: 1rem;
   background-color: white;
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  outline: 0.25rem solid var(--red-opaque);
 }
 .Toast > div h2 {
   font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--dim);
 }
 .Toast > div p {
   font-size: 0.8rem;
+  color: var(--dim);
+}
+.Toast > div > div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+.Toast > div > div > svg {
+  fill: var(--red);
 }
