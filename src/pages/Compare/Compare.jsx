@@ -1,6 +1,7 @@
 import "./Compare.css";
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Toast from "../../components/Toast/Toast";
 
 export default function Compare() {
   const [sku, setSku] = useState("");
@@ -76,6 +77,8 @@ export default function Compare() {
       <div className="bottom-btns-wrapper">
         <Link to="/">Voltar</Link>
       </div>
+
+      <Toast />
     </div>
   );
 }
