@@ -6,6 +6,10 @@ import Toast from "../../components/Toast/Toast";
 export default function Compare() {
   const [sku, setSku] = useState("");
   const [usePrefix, setUsePrefix] = useState(true);
+  const [toastTitle, setToastTitle] = useState("");
+  const [toastDescription, setToastDescription] = useState("");
+  const [toastType, setToastType] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const inputRef = useRef(null);
 
@@ -28,6 +32,23 @@ export default function Compare() {
 
   function handleSubmit(event) {
     event.preventDefault();
+
+    if (!sku) {
+      setShowToast(true);
+      setToastTitle("Erro");
+      setToastDescription("É obrigatório inserir uma SKU no campo acima.");
+      setToastType("error");
+      return;
+    }
+
+    const skuPattern = usePrefix ? /^24010[0-9]{6}$/ : /^10[0-9]{6}$/;
+    if (!skuPattern.test(sku)) {
+      setShowToast(true);
+      setToastTitle("Aviso");
+      setToastDescription("Por favor, escaneie uma SKU válida.");
+      setToastType("warning");
+      return;
+    }
 
     console.log(sku);
   }
@@ -54,10 +75,8 @@ export default function Compare() {
           autoComplete="off"
           autoCorrect="off"
           spellCheck="off"
-          pattern={usePrefix ? "24010[0-9]{6}" : "10[0-9]{6}"}
           placeholder={usePrefix ? "Ex.: 24010123456" : "Ex.: 10123456"}
           maxLength={usePrefix ? "11" : "8"}
-          required
         />
       </form>
 
@@ -79,9 +98,10 @@ export default function Compare() {
       </div>
 
       <Toast
-        title="Título da notificação"
-        description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam esse."
-        type="error"
+        title={toastTitle}
+        description={toastDescription}
+        type={toastType}
+        show={showToast}
       />
     </div>
   );

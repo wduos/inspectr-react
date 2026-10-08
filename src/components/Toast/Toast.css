@@ -1,33 +1,41 @@
 .Toast {
-  display: none;
-  position: absolute;
-  top: 0.5rem;
-  left: 0;
   width: 100%;
-  padding: 0.5rem 1rem;
-}
-.Toast > div {
-  width: 100%;
+  margin-block: 1rem;
   padding: 1rem;
   background-color: white;
   border-radius: var(--radius);
-  outline: 0.25rem solid var(--red-opaque);
+  border: 0.25rem solid var(--red-opaque);
 }
-.Toast > div h2 {
+.Toast.success {
+  border: 0.25rem solid var(--green-opaque);
+}
+.Toast.warning {
+  border: 0.25rem solid var(--yellow-opaque);
+}
+.Toast.error {
+  border: 0.25rem solid var(--red-opaque);
+}
+.Toast h2 {
   font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
 }
-.Toast > div p {
+.Toast p {
   font-size: 0.8rem;
   color: var(--dim);
 }
-.Toast > div > div {
+.Toast > div {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 0.25rem;
 }
-.Toast > div > div > svg {
+.Toast > div > svg.success {
+  fill: var(--green);
+}
+.Toast > div > svg.warning {
+  fill: var(--yellow);
+}
+.Toast > div > svg.error {
   fill: var(--red);
 }
