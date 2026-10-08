@@ -47,6 +47,8 @@ export default function Compare() {
       setToastTitle("Aviso");
       setToastDescription("Por favor, escaneie uma SKU válida.");
       setToastType("warning");
+
+      setSku("");
       return;
     }
 
