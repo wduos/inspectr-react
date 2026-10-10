@@ -83,6 +83,11 @@ input[type="text"]:focus {
   outline-offset: -0.25rem;
 }
 
+svg {
+  fill: var(--dark);
+  height: 1.2rem;
+}
+
 .center {
   display: block;
   text-align: center;

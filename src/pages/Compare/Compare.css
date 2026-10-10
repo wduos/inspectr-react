@@ -2,8 +2,7 @@
   padding: 1rem;
 }
 
-svg {
-  height: 1.2rem;
+.Compare svg {
   fill: var(--accent-opaque-1);
 }
 

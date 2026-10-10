@@ -1,6 +1,5 @@
 .Toast {
   width: 100%;
-  margin-block: 1rem;
   padding: 1rem;
   background-color: white;
   border-radius: var(--radius);

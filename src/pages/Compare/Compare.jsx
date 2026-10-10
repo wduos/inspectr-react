@@ -10,6 +10,7 @@ export default function Compare() {
   const [toastDescription, setToastDescription] = useState("");
   const [toastType, setToastType] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [inConference, setInConference] = useState(false);
 
   const inputRef = useRef(null);
 
@@ -36,7 +37,9 @@ export default function Compare() {
     if (!sku) {
       setShowToast(true);
       setToastTitle("Erro");
-      setToastDescription("É obrigatório inserir uma SKU no campo acima.");
+      setToastDescription(
+        "Você precisa escanear ou inserir uma SKU no campo acima.",
+      );
       setToastType("error");
       return;
     }
@@ -45,14 +48,24 @@ export default function Compare() {
     if (!skuPattern.test(sku)) {
       setShowToast(true);
       setToastTitle("Aviso");
-      setToastDescription("Por favor, escaneie uma SKU válida.");
+      setToastDescription(
+        "O dado escaneado ou inserido não é uma SKU válida. Tente novamente.",
+      );
       setToastType("warning");
 
       setSku("");
       return;
     }
 
-    console.log(sku);
+    setShowToast(true);
+    setToastTitle("Sucesso");
+    setToastDescription(
+      "Código de SKU aceito. Conferência iniciada com a SKU " + sku + ".",
+    );
+    setToastType("success");
+
+    setSku("");
+    setInConference(true);
   }
 
   return (
@@ -64,9 +77,16 @@ export default function Compare() {
         Compara SKU
       </h1>
       <h2 className="page-subtitle">Nova Conferência</h2>
-      <p className="page-instructions">
-        Escaneie a SKU de uma caixa do pallet para iniciar a conferência.
-      </p>
+      {inConference ? (
+        <p className="page-instructions">
+          <span className="bold">Siga escaneando</span> as demais caixas no
+          pallet, e escute os avisos sonoros para identificar erros.
+        </p>
+      ) : (
+        <p className="page-instructions">
+          Escaneie a SKU de uma caixa do pallet para iniciar a conferência.
+        </p>
+      )}
       <form onSubmit={(e) => handleSubmit(e)}>
         <input
           ref={inputRef}
@@ -82,18 +102,22 @@ export default function Compare() {
         />
       </form>
 
-      <div className="switch-label-wrapper">
-        <button
-          className={usePrefix ? "switch-active" : ""}
-          id="sku-prefix-switch"
-          type="button"
-          onClick={() => {
-            setUsePrefix(!usePrefix);
-            setSku("");
-          }}
-        ></button>
-        <label htmlFor="sku-prefix-switch">Usar prefixo</label>
-      </div>
+      {inConference && <div>{sku}</div>}
+
+      {!inConference && (
+        <div className="switch-label-wrapper" style={{ marginBottom: "1rem" }}>
+          <button
+            className={usePrefix ? "switch-active" : ""}
+            id="sku-prefix-switch"
+            type="button"
+            onClick={() => {
+              setUsePrefix(!usePrefix);
+              setSku("");
+            }}
+          ></button>
+          <label htmlFor="sku-prefix-switch">Usar prefixo</label>
+        </div>
+      )}
 
       <div className="bottom-btns-wrapper">
         <Link to="/">Voltar</Link>
