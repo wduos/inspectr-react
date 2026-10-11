@@ -13,6 +13,7 @@ export default function Inbound() {
   const [toastDescription, setToastDescription] = useState("");
   const [toastType, setToastType] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [showFinalizePrompt, setShowFinalizePrompt] = useState(false);
 
   const inputRef = useRef(null);
 
@@ -67,6 +68,15 @@ export default function Inbound() {
     setInput("");
     setSku(input);
     setBoxCounter(boxCounter + 1);
+  }
+
+  function resetConference() {
+    setShowFinalizePrompt(false);
+    setBoxCounter(0);
+    setShowToast(false);
+    setUsePrefix(true);
+    setInput("");
+    setSku("");
   }
 
   return (
@@ -155,9 +165,44 @@ export default function Inbound() {
           show={showToast}
         />
 
-        {/* <div className="bottom-btns-wrapper">
-          <Link to="/">Voltar</Link>
-        </div> */}
+        {sku && (
+          <button
+            className={
+              showFinalizePrompt ? "button confirm mtop" : "button mtop"
+            }
+            type="button"
+            onClick={() => setShowFinalizePrompt(true)}
+          >
+            Finalizar
+          </button>
+        )}
+
+        <div className={showFinalizePrompt ? "prompt shown" : "prompt"}>
+          <div
+            className="prompt-mask"
+            onClick={() => setShowFinalizePrompt(false)}
+          ></div>
+          <div
+            className={
+              showFinalizePrompt ? "prompt-wrapper shown" : "prompt-wrapper"
+            }
+          >
+            <h3 className="page-title">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zm0-336c-17.7 0-32 14.3-32 32 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-44.2 35.8-80 80-80s80 35.8 80 80c0 47.2-36 67.2-56 74.5l0 3.8c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-8.1c0-20.5 14.8-35.2 30.1-40.2 6.4-2.1 13.2-5.5 18.2-10.3 4.3-4.2 7.7-10 7.7-19.6 0-17.7-14.3-32-32-32zM224 368a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z" />
+              </svg>
+              Confirma
+            </h3>
+            <p>Tem certeza que deseja finalizar a conferência?</p>
+            <button
+              className="button confirm"
+              type="button"
+              onClick={resetConference}
+            >
+              Finalizar conferência
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
