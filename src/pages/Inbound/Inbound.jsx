@@ -5,13 +5,14 @@ import Toast from "../../components/Toast/Toast";
 import Header from "../../components/Header/Header";
 
 export default function Inbound() {
+  const [input, setInput] = useState("");
   const [sku, setSku] = useState("");
+  const [boxCounter, setBoxCounter] = useState(0);
   const [usePrefix, setUsePrefix] = useState(true);
   const [toastTitle, setToastTitle] = useState("");
   const [toastDescription, setToastDescription] = useState("");
   const [toastType, setToastType] = useState("");
   const [showToast, setShowToast] = useState(false);
-  const [inConference, setInConference] = useState(false);
 
   const inputRef = useRef(null);
 
@@ -29,73 +30,84 @@ export default function Inbound() {
       value = value.slice(0, maxLength);
     }
 
-    setSku(value);
+    setInput(value);
   }
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    if (!sku) {
+    if (!input) {
       setShowToast(true);
       setToastTitle("Erro");
-      setToastDescription(
-        "Você precisa escanear ou inserir uma SKU no campo acima.",
-      );
+      setToastDescription("Você precisa escanear uma SKU no campo acima.");
       setToastType("error");
       return;
     }
 
     const skuPattern = usePrefix ? /^24010[0-9]{6}$/ : /^10[0-9]{6}$/;
-    if (!skuPattern.test(sku)) {
+    if (!skuPattern.test(input)) {
       setShowToast(true);
       setToastTitle("Aviso");
       setToastDescription(
-        "O dado escaneado ou inserido não é uma SKU válida. Tente novamente.",
+        "O dado escaneado não é uma SKU válida. Tente novamente.",
       );
       setToastType("warning");
 
-      setSku("");
+      setInput("");
       return;
     }
 
     setShowToast(true);
     setToastTitle("Sucesso");
     setToastDescription(
-      "Código de SKU aceito. Conferência iniciada com a SKU " + sku + ".",
+      "Código de SKU válido! Conferência iniciada com a SKU " + input + ".",
     );
     setToastType("success");
 
-    setSku("");
-    setInConference(true);
+    setInput("");
+    setSku(input);
+    setBoxCounter(boxCounter + 1);
   }
 
   return (
     <div className="Inbound">
       <Header titleTop="Conferência de" titleBottom="Inbound" backToUrl="/" />
+
       <h1 className="page-title">
-        <svg viewBox="0 0 24 24">
-          <path d="M18.581,2.14,12.316.051a1,1,0,0,0-.632,0L5.419,2.14A4.993,4.993,0,0,0,2,6.883V12c0,7.563,9.2,11.74,9.594,11.914a1,1,0,0,0,.812,0C12.8,23.74,22,19.563,22,12V6.883A4.993,4.993,0,0,0,18.581,2.14ZM16.718,9.717l-4.272,4.272a1.873,1.873,0,0,1-1.335.553h-.033a1.872,1.872,0,0,1-1.345-.6l-2.306-2.4A1,1,0,1,1,8.868,10.16L11.112,12.5,15.3,8.3a1,1,0,0,1,1.414,1.414Z" />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <path d="M284-1.3c-17.3-10-38.7-10-56 0L143.8 47.3c-17.3 10-28 28.5-28 48.5l0 101.9-88.3 51c-17.3 10-28 28.5-28 48.5l0 97.3c0 20 10.7 38.5 28 48.5l84.3 48.6c17.3 10 38.7 10 56 0l88.3-51 88.3 51c17.3 10 38.7 10 56 0L484.5 443c17.3-10 28-28.5 28-48.5l0-97.3c0-20-10.7-38.5-28-48.5l-88.3-51 0-101.9c0-20-10.7-38.5-28-48.5L284-1.3zM232 292.6l0 106.5-88.3 51c-1.2 .7-2.6 1.1-4 1.1l0-105.3 92.3-53.3zm231.4 .6c.7 1.2 1.1 2.6 1.1 4l0 97.3c0 2.9-1.5 5.5-4 6.9l-84.3 48.6c-1.2 .7-2.6 1.1-4 1.1l0-105.3 91.2-52.6zM348.3 95.8l0 101.9-92.3 53.3 0-106.5 91.2-52.6c.7 1.2 1.1 2.6 1.1 4z" />
         </svg>
-        Compara SKU
+        {sku ? "Em conferência" : "Nova Conferência"}
       </h1>
-      <h2 className="page-subtitle">Nova Conferência</h2>
-      {inConference ? (
+      {sku ? (
         <p className="page-instructions">
-          <span className="bold">Siga escaneando</span> as demais caixas no
+          Siga escaneando o <span className="bold">SKU</span> das caixas no
           pallet, e escute os avisos sonoros para identificar erros.
         </p>
       ) : (
         <p className="page-instructions">
-          Escaneie a SKU de uma caixa do pallet para iniciar a conferência.
+          Escaneie a SKU de uma caixa do pallet para iniciar a conferência do
+          pallet.
         </p>
       )}
       <form onSubmit={(e) => handleSubmit(e)}>
+        {/*<input
+          ref={inputRef}
+          type="text"
+          value={input}
+          onChange={(e) => handleSetSKU(e)}
+          inputMode="none"
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck="off"
+          placeholder={usePrefix ? "Ex.: 24010123456" : "Ex.: 10123456"}
+          maxLength={usePrefix ? "11" : "8"}
+        />*/}
         <input
           ref={inputRef}
           type="text"
-          value={sku}
+          value={input}
           onChange={(e) => handleSetSKU(e)}
-          inputMode="none"
           autoComplete="off"
           autoCorrect="off"
           spellCheck="off"
@@ -104,9 +116,7 @@ export default function Inbound() {
         />
       </form>
 
-      {inConference && <div>{sku}</div>}
-
-      {!inConference && (
+      {!sku && (
         <div className="switch-label-wrapper" style={{ marginBottom: "1rem" }}>
           <button
             className={usePrefix ? "switch-active" : ""}
@@ -114,16 +124,25 @@ export default function Inbound() {
             type="button"
             onClick={() => {
               setUsePrefix(!usePrefix);
-              setSku("");
+              setInput("");
             }}
           ></button>
           <label htmlFor="sku-prefix-switch">Usar prefixo</label>
         </div>
       )}
 
-      <div className="bottom-btns-wrapper">
-        <Link to="/">Voltar</Link>
-      </div>
+      {sku && (
+        <div className="important-data-wrapper">
+          <div className="title-data-wrapper">
+            <h4>SKU</h4>
+            <h3>{sku}</h3>
+          </div>
+          <div className="title-data-wrapper">
+            <h4>Caixas</h4>
+            <h3>{boxCounter}</h3>
+          </div>
+        </div>
+      )}
 
       <Toast
         title={toastTitle}
@@ -131,6 +150,10 @@ export default function Inbound() {
         type={toastType}
         show={showToast}
       />
+
+      <div className="bottom-btns-wrapper">
+        <Link to="/">Voltar</Link>
+      </div>
     </div>
   );
 }

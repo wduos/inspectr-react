@@ -3,16 +3,15 @@
   padding: 1rem;
   background-color: white;
   border-radius: var(--radius);
-  border: 0.25rem solid var(--red-opaque);
 }
 .Toast.success {
-  border: 0.25rem solid var(--green-opaque);
+  border: 2px solid var(--green-opaque);
 }
 .Toast.warning {
-  border: 0.25rem solid var(--yellow-opaque);
+  border: solid var(--yellow-opaque);
 }
 .Toast.error {
-  border: 0.25rem solid var(--red-opaque);
+  border: 2px solid var(--red-opaque);
 }
 .Toast h2 {
   font-size: 0.8rem;

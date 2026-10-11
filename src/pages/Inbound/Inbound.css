@@ -1,4 +1,7 @@
 .Inbound {
+  margin-top: 3.3rem;
+  height: calc(100vh - 3.3rem);
+  background-color: white;
   padding: 1rem;
 }
 
@@ -46,4 +49,21 @@
   transform: scale(-65%);
   outline: 4px solid rgba(255, 255, 255, 0.4);
   left: 1.6rem;
+}
+
+.Inbound .important-data-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+.Inbound .important-data-wrapper div:nth-child(1) {
+  width: 70%;
+}
+.Inbound .important-data-wrapper div:nth-child(2) {
+  width: 30%;
+}
+
+.Inbound .title-data-wrapper {
+  margin-bottom: 1rem;
 }
