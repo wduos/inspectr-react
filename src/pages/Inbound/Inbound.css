@@ -1,8 +1,8 @@
-.Compare {
+.Inbound {
   padding: 1rem;
 }
 
-.Compare svg {
+.Inbound svg {
   fill: var(--accent-opaque-1);
 }
 
