@@ -39,9 +39,9 @@ export default function Inbound() {
 
     if (!input) {
       setShowToast(true);
-      setToastTitle("Erro");
+      setToastTitle("Aviso");
       setToastDescription("Você precisa escanear uma SKU no campo acima.");
-      setToastType("error");
+      setToastType("warning");
       return;
     }
 
@@ -55,6 +55,33 @@ export default function Inbound() {
       setToastType("warning");
 
       setInput("");
+      return;
+    }
+
+    if (sku && input === sku) {
+      setShowToast(true);
+      setToastTitle("Compatível");
+      setToastDescription(
+        "A SKU desta caixa é a mesma da referência neste pallet! ",
+      );
+      setToastType("success");
+
+      setInput("");
+      setBoxCounter(boxCounter + 1);
+
+      return;
+    }
+
+    if (sku && input !== sku) {
+      setShowToast(true);
+      setToastTitle("Incompatível");
+      setToastDescription(
+        "A SKU desta caixa é diferente da referência neste pallet. Verifique! ",
+      );
+      setToastType("error");
+
+      setInput("");
+
       return;
     }
 
@@ -145,8 +172,15 @@ export default function Inbound() {
           </div>
         )}
 
+        <Toast
+          title={toastTitle}
+          description={toastDescription}
+          type={toastType}
+          show={showToast}
+        />
+
         {sku && (
-          <div className="important-data-wrapper">
+          <div className="important-data-wrapper mtop">
             <div className="title-data-wrapper">
               <h4>SKU</h4>
               <h3>{sku}</h3>
@@ -158,18 +192,9 @@ export default function Inbound() {
           </div>
         )}
 
-        <Toast
-          title={toastTitle}
-          description={toastDescription}
-          type={toastType}
-          show={showToast}
-        />
-
         {sku && (
           <button
-            className={
-              showFinalizePrompt ? "button confirm mtop" : "button mtop"
-            }
+            className={showFinalizePrompt ? "button confirm" : "button "}
             type="button"
             onClick={() => setShowFinalizePrompt(true)}
           >
