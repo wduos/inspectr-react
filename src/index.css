@@ -1,13 +1,15 @@
 :root {
   --green-tint: #f4fcf6;
   --green: #39c252;
-  --green-alt: #329c46;
+  --green-1: #39c26e;
   --green-opaque: #39c2524d;
   --red-tint: #fff7f7;
   --red: #e34e4e;
+  --red-1: #e34e5a;
   --red-opaque: #e34e4e53;
   --light-tint: #f9f7fd;
-  --yellow: #f1e131;
+  --yellow: #e4d316;
+  --yellow-1: #e4e116;
   --yellow-opaque: #f1e1314f;
   --light-tint: #f9f7fd;
   --accent: #794ee3;

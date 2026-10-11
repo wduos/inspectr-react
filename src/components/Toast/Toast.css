@@ -5,22 +5,23 @@
   border-radius: var(--radius);
 }
 .Toast.success {
-  border: 2px solid var(--green-opaque);
+  background-image: linear-gradient(45deg, var(--green), var(--green-1));
 }
 .Toast.warning {
-  border: solid var(--yellow-opaque);
+  background-image: linear-gradient(45deg, var(--yellow), var(--yellow-1));
 }
 .Toast.error {
-  border: 2px solid var(--red-opaque);
+  background-image: linear-gradient(45deg, var(--red), var(--red-1));
 }
 .Toast h2 {
   font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
+  color: white;
 }
 .Toast p {
   font-size: 0.8rem;
-  color: var(--dim);
+  color: white;
 }
 .Toast > div {
   display: flex;
@@ -28,12 +29,6 @@
   gap: 0.5rem;
   margin-bottom: 0.25rem;
 }
-.Toast > div > svg.success {
-  fill: var(--green);
-}
-.Toast > div > svg.warning {
-  fill: var(--yellow);
-}
-.Toast > div > svg.error {
-  fill: var(--red);
+.Toast > div > svg {
+  fill: white;
 }
