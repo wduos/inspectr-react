@@ -206,7 +206,7 @@ export default function Inbound() {
 
         {sku && (
           <button
-            className={showFinalizePrompt ? "button confirm" : "button "}
+            className="button"
             type="button"
             onClick={() => setShowFinalizePrompt(true)}
           >
@@ -231,11 +231,7 @@ export default function Inbound() {
               Confirma
             </h3>
             <p>Tem certeza que deseja finalizar a conferência?</p>
-            <button
-              className="button confirm"
-              type="button"
-              onClick={resetConference}
-            >
+            <button className="button" type="button" onClick={resetConference}>
               Finalizar conferência
             </button>
           </div>
