@@ -23,6 +23,26 @@ export default function Inbound() {
     }
   }, [usePrefix]);
 
+  // 1. Manage history stack when 'sku' becomes active (conference started)
+  useEffect(() => {
+    if (sku) {
+      // Push a fake state to the history stack so the back button stays on page
+      window.history.pushState({ conferenceActive: true }, "");
+
+      const handlePopState = (event) => {
+        // Prevent default navigation and show prompt instead
+        window.history.pushState({ conferenceActive: true }, "");
+        setShowFinalizePrompt(true);
+      };
+
+      window.addEventListener("popstate", handlePopState);
+
+      return () => {
+        window.removeEventListener("popstate", handlePopState);
+      };
+    }
+  }, [sku]);
+
   function handleSetSKU(e) {
     let value = e.target.value.replace(/[^0-9]/g, "");
 
@@ -39,9 +59,11 @@ export default function Inbound() {
 
     if (!input) {
       setShowToast(true);
-      setToastTitle("Aviso");
-      setToastDescription("Você precisa escanear uma SKU no campo acima.");
-      setToastType("warning");
+      setToasts(
+        "Aviso",
+        "Você precisa escanear uma SKU no campo acima.",
+        "warning",
+      );
       return;
     }
 
@@ -53,7 +75,6 @@ export default function Inbound() {
         "O dado escaneado não é uma SKU válida. Tente novamente.",
       );
       setToastType("warning");
-
       setInput("");
       return;
     }
@@ -65,10 +86,8 @@ export default function Inbound() {
         "A SKU desta caixa é a mesma da referência neste pallet! ",
       );
       setToastType("success");
-
       setInput("");
       setBoxCounter(boxCounter + 1);
-
       return;
     }
 
@@ -79,9 +98,7 @@ export default function Inbound() {
         "A SKU desta caixa é diferente da referência neste pallet. Verifique! ",
       );
       setToastType("error");
-
       setInput("");
-
       return;
     }
 
@@ -91,7 +108,6 @@ export default function Inbound() {
       "Código de SKU válido! Conferência iniciada com a SKU " + input + ".",
     );
     setToastType("success");
-
     setInput("");
     setSku(input);
     setBoxCounter(boxCounter + 1);
@@ -104,11 +120,18 @@ export default function Inbound() {
     setUsePrefix(true);
     setInput("");
     setSku("");
+    // 2. Step back out of our dummy history state so user actually leaves the screen
+    window.history.back();
   }
 
   return (
     <div className="Inbound">
-      <Header titleTop="Conferência de" titleBottom="Inbound" backToUrl="/" />
+      <Header
+        titleTop="Conferência de"
+        titleBottom="Inbound"
+        backToUrl="/"
+        onBack={sku ? () => setShowFinalizePrompt(true) : undefined}
+      />
 
       <div>
         <h1 className="page-title">
@@ -129,22 +152,11 @@ export default function Inbound() {
           </p>
         )}
         <form onSubmit={(e) => handleSubmit(e)}>
-          {/*<input
-          ref={inputRef}
-          type="text"
-          value={input}
-          onChange={(e) => handleSetSKU(e)}
-          inputMode="none"
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck="off"
-          placeholder={usePrefix ? "Ex.: 24010123456" : "Ex.: 10123456"}
-          maxLength={usePrefix ? "11" : "8"}
-        />*/}
           <input
             ref={inputRef}
             type="text"
             value={input}
+            // inputMode="none"
             onChange={(e) => handleSetSKU(e)}
             autoComplete="off"
             autoCorrect="off"

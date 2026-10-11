@@ -10,13 +10,16 @@
   background-color: white;
 }
 
-.Header a {
+.Header a,
+.Header button {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 2rem;
   height: 2rem;
   text-decoration: none;
+  background-color: transparent;
+  border: none;
 }
 .Header a svg {
   fill: var(--dark);
