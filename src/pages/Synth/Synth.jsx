@@ -4,7 +4,6 @@ import Header from "../../components/Header/Header";
 
 export default function Synth() {
   const { playTone, isPlaying } = useSynth();
-
   const notes = [
     { name: "C4", freq: 261.63 },
     { name: "C#4", freq: 277.18 },
@@ -22,6 +21,10 @@ export default function Synth() {
     { name: "C#5", freq: 554.37 },
     { name: "D5", freq: 587.33 },
     { name: "D#5", freq: 622.25 },
+    { name: "E5", freq: 659.25 },
+    { name: "F5", freq: 698.46 },
+    { name: "F#5", freq: 739.99 },
+    { name: "G5", freq: 783.99 },
   ];
 
   return (
