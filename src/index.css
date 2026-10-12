@@ -92,6 +92,15 @@ svg {
 .mtop {
   margin-top: 1rem;
 }
+.flex-5 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
 .center {
   display: block;
   text-align: center;
