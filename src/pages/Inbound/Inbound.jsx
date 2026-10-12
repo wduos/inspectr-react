@@ -215,6 +215,7 @@ export default function Inbound() {
         )}
 
         <div className={showFinalizePrompt ? "prompt shown" : "prompt"}>
+          {/* <div className="prompt shown"> */}
           <div
             className="prompt-mask"
             onClick={() => setShowFinalizePrompt(false)}

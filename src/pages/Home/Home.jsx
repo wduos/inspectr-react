@@ -13,7 +13,7 @@ export default function Home() {
         </svg>
       ),
       description:
-        "Escaneie e garanta que cada pallet conferido contenha apenas uma SKU.",
+        "Escaneie e garanta que cada pallet recebido contém somente uma SKU.",
       url: "/inbound",
     },
     {
