@@ -1,6 +1,5 @@
 import "./Inbound.css";
 import { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Toast from "../../components/Toast/Toast";
 import Header from "../../components/Header/Header";
 
@@ -23,14 +22,11 @@ export default function Inbound() {
     }
   }, [usePrefix]);
 
-  // 1. Manage history stack when 'sku' becomes active (conference started)
   useEffect(() => {
     if (sku) {
-      // Push a fake state to the history stack so the back button stays on page
       window.history.pushState({ conferenceActive: true }, "");
 
-      const handlePopState = (event) => {
-        // Prevent default navigation and show prompt instead
+      const handlePopState = () => {
         window.history.pushState({ conferenceActive: true }, "");
         setShowFinalizePrompt(true);
       };
@@ -54,12 +50,18 @@ export default function Inbound() {
     setInput(value);
   }
 
+  function setToast(title, description, type, show = true) {
+    setToastTitle(title);
+    setToastDescription(description);
+    setToastType(type);
+    setShowToast(show);
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
 
     if (!input) {
-      setShowToast(true);
-      setToasts(
+      setToast(
         "Aviso",
         "Você precisa escanear uma SKU no campo acima.",
         "warning",
@@ -69,45 +71,41 @@ export default function Inbound() {
 
     const skuPattern = usePrefix ? /^24010[0-9]{6}$/ : /^10[0-9]{6}$/;
     if (!skuPattern.test(input)) {
-      setShowToast(true);
-      setToastTitle("Aviso");
-      setToastDescription(
+      setToast(
+        "Aviso",
         "O dado escaneado não é uma SKU válida. Tente novamente.",
+        "warning",
       );
-      setToastType("warning");
       setInput("");
       return;
     }
 
     if (sku && input === sku) {
-      setShowToast(true);
-      setToastTitle("Compatível");
-      setToastDescription(
+      setToast(
+        "Compatível",
         "A SKU desta caixa é a mesma da referência neste pallet! ",
+        "success",
       );
-      setToastType("success");
       setInput("");
       setBoxCounter(boxCounter + 1);
       return;
     }
 
     if (sku && input !== sku) {
-      setShowToast(true);
-      setToastTitle("Incompatível");
-      setToastDescription(
+      setToast(
+        "Incompatível",
         "A SKU desta caixa é diferente da referência neste pallet. Verifique! ",
+        "error",
       );
-      setToastType("error");
       setInput("");
       return;
     }
 
-    setShowToast(true);
-    setToastTitle("Sucesso");
-    setToastDescription(
+    setToast(
+      "Sucesso",
       "Código de SKU válido! Conferência iniciada com a SKU " + input + ".",
+      "success",
     );
-    setToastType("success");
     setInput("");
     setSku(input);
     setBoxCounter(boxCounter + 1);
@@ -120,7 +118,8 @@ export default function Inbound() {
     setUsePrefix(true);
     setInput("");
     setSku("");
-    // 2. Step back out of our dummy history state so user actually leaves the screen
+
+    inputRef.current?.focus();
     window.history.back();
   }
 
@@ -156,7 +155,7 @@ export default function Inbound() {
             ref={inputRef}
             type="text"
             value={input}
-            // inputMode="none"
+            inputMode="none"
             onChange={(e) => handleSetSKU(e)}
             autoComplete="off"
             autoCorrect="off"
@@ -215,7 +214,6 @@ export default function Inbound() {
         )}
 
         <div className={showFinalizePrompt ? "prompt shown" : "prompt"}>
-          {/* <div className="prompt shown"> */}
           <div
             className="prompt-mask"
             onClick={() => setShowFinalizePrompt(false)}
