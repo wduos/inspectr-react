@@ -140,6 +140,8 @@ export default function Inbound() {
     setInput("");
     setSku("");
 
+    play("inspection-end");
+
     inputRef.current?.focus();
     window.history.back();
   }
