@@ -20,6 +20,10 @@ export default function Inbound() {
   const inputRef = useRef(null);
 
   useEffect(() => {
+    play("inspection-init");
+  }, []);
+
+  useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
@@ -69,6 +73,9 @@ export default function Inbound() {
         "Você precisa escanear uma SKU no campo acima.",
         "warning",
       );
+
+      play("warning");
+
       return;
     }
 
@@ -80,6 +87,9 @@ export default function Inbound() {
         "warning",
       );
       setInput("");
+
+      play("warning");
+
       return;
     }
 
@@ -91,6 +101,9 @@ export default function Inbound() {
       );
       setInput("");
       setBoxCounter(boxCounter + 1);
+
+      play("success");
+
       return;
     }
 
@@ -101,6 +114,9 @@ export default function Inbound() {
         "error",
       );
       setInput("");
+
+      play("error");
+
       return;
     }
 
