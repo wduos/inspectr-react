@@ -2,6 +2,7 @@ import "./Inbound.css";
 import { useState, useRef, useEffect } from "react";
 import Toast from "../../components/Toast/Toast";
 import Header from "../../components/Header/Header";
+import { useFx } from "../../Hooks/useFx/useFx";
 
 export default function Inbound() {
   const [input, setInput] = useState("");
@@ -13,6 +14,8 @@ export default function Inbound() {
   const [toastType, setToastType] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [showFinalizePrompt, setShowFinalizePrompt] = useState(false);
+
+  const { play } = useFx();
 
   const inputRef = useRef(null);
 
@@ -109,6 +112,8 @@ export default function Inbound() {
     setInput("");
     setSku(input);
     setBoxCounter(boxCounter + 1);
+
+    play("success");
   }
 
   function resetConference() {

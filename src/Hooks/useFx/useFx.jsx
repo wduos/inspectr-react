@@ -1,123 +1,172 @@
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useCallback } from "react";
 
 export function useFx() {
-  const audioCtxRef = useRef(null);
-  const reverbNodeRef = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const ctxRef = useRef(null);
 
-  // Helper to generate a simple synthetic impulse response for reverb
-  const createReverbBuffer = (ctx, duration = 1.5, decay = 2.0) => {
-    const sampleRate = ctx.sampleRate;
-    const length = sampleRate * duration;
-    const impulse = ctx.createBuffer(2, length, sampleRate);
-    const left = impulse.getChannelData(0);
-    const right = impulse.getChannelData(1);
-
-    for (let i = 0; i < length; i++) {
-      const n = i;
-      // Exponentially decaying white noise
-      const decayFactor = Math.pow(1 - n / length, decay);
-      left[i] = (Math.random() * 2 - 1) * decayFactor;
-      right[i] = (Math.random() * 2 - 1) * decayFactor;
+  // Lazy-initialize AudioContext on first user interaction
+  const getAudioContext = useCallback(() => {
+    if (!ctxRef.current) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      ctxRef.current = new AudioCtx();
     }
-
-    return impulse;
-  };
-
-  // Initialize AudioContext & Reverb Node on user interaction
-  const initContext = () => {
-    if (!audioCtxRef.current) {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      const ctx = new AudioContext();
-      audioCtxRef.current = ctx;
-
-      // Setup ConvolverNode for Reverb
-      const convolver = ctx.createConvolver();
-      convolver.buffer = createReverbBuffer(ctx, 1.2, 2.5);
-      convolver.connect(ctx.destination);
-      reverbNodeRef.current = convolver;
+    if (ctxRef.current.state === "suspended") {
+      ctxRef.current.resume();
     }
-
-    if (audioCtxRef.current.state === "suspended") {
-      audioCtxRef.current.resume();
-    }
-  };
-
-  const playTone = useCallback((frequency = 440, duration = 1.0) => {
-    initContext();
-    const ctx = audioCtxRef.current;
-    if (!ctx) return;
-
-    const now = ctx.currentTime;
-
-    // 1. Create nodes
-    const oscillator = ctx.createOscillator();
-    const gainNode = ctx.createGain();
-    const dryGain = ctx.createGain();
-    const wetGain = ctx.createGain();
-
-    // 2. Configure Oscillator (Triangle wave for soft pluck)
-    oscillator.type = "triangle";
-    oscillator.frequency.setValueAtTime(frequency, now);
-
-    // 3. Configure Pluck Envelope (Fast Attack + Exponential Decay)
-    const maxGain = 0.3;
-    const attackTime = 0.005; // 5ms attack
-    const decayTime = Math.min(duration, 0.8); // Decay length
-
-    gainNode.gain.cancelScheduledValues(now);
-    gainNode.gain.setValueAtTime(0.0001, now);
-    gainNode.gain.exponentialRampToValueAtTime(maxGain, now + attackTime);
-    gainNode.gain.exponentialRampToValueAtTime(
-      0.0001,
-      now + attackTime + decayTime,
-    );
-
-    // 4. Mix Dry (Direct) & Wet (Reverb) Signals
-    dryGain.gain.setValueAtTime(0.7, now); // 70% direct signal
-    wetGain.gain.setValueAtTime(0.3, now); // 30% reverb mix
-
-    // 5. Signal Routing:
-    // Oscillator -> Gain Node
-    // Gain Node -> Dry Gain -> Main Output (Destination)
-    // Gain Node -> Wet Gain -> Reverb Node -> Main Output
-    oscillator.connect(gainNode);
-
-    gainNode.connect(dryGain);
-    dryGain.connect(ctx.destination);
-
-    if (reverbNodeRef.current) {
-      gainNode.connect(wetGain);
-      wetGain.connect(reverbNodeRef.current);
-    }
-
-    // 6. Trigger playback
-    oscillator.start(now);
-    oscillator.stop(now + attackTime + decayTime + 0.1);
-    setIsPlaying(true);
-
-    const timer = setTimeout(
-      () => {
-        oscillator.disconnect();
-        gainNode.disconnect();
-        dryGain.disconnect();
-        wetGain.disconnect();
-        setIsPlaying(false);
-      },
-      (attackTime + decayTime + 0.5) * 1000,
-    );
-
-    return () => clearTimeout(timer);
+    return ctxRef.current;
   }, []);
 
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (audioCtxRef.current) {
-        audioCtxRef.current.close();
+  // --- Sound Generators ---
+
+  const clickySound = useCallback(
+    (time, freq) => {
+      const ctx = getAudioContext();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+
+      o.type = "triangle";
+      o.frequency.setValueAtTime(freq, time);
+      o.frequency.exponentialRampToValueAtTime(100, time + 0.02);
+
+      g.gain.setValueAtTime(1, time);
+      g.gain.exponentialRampToValueAtTime(0.0001, time + 0.02);
+
+      o.connect(g).connect(ctx.destination);
+      o.start(time);
+      o.stop(time + 0.03);
+    },
+    [getAudioContext],
+  );
+
+  const pluckSound = useCallback(
+    (time) => {
+      const ctx = getAudioContext();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+
+      o.type = "triangle";
+      o.frequency.setValueAtTime(783.99, time);
+      o.frequency.setValueAtTime(622.25, time + 0.11);
+      o.frequency.setValueAtTime(523.25, time + 0.23);
+
+      g.gain.setValueAtTime(0.4, time);
+      g.gain.exponentialRampToValueAtTime(0.00001, time + 0.1);
+      g.gain.setValueAtTime(0.4, time + 0.11);
+      g.gain.exponentialRampToValueAtTime(0.00001, time + 0.22);
+      g.gain.setValueAtTime(0.4, time + 0.23);
+      g.gain.exponentialRampToValueAtTime(0.00001, time + 0.5);
+
+      o.connect(g).connect(ctx.destination);
+      o.start(time);
+      o.stop(time + 0.5);
+    },
+    [getAudioContext],
+  );
+
+  const warnSound = useCallback(
+    (time) => {
+      const ctx = getAudioContext();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+
+      o.type = "triangle";
+      o.frequency.setValueAtTime(557, time);
+      o.frequency.exponentialRampToValueAtTime(257, time + 0.025);
+      o.frequency.exponentialRampToValueAtTime(357, time + 0.3);
+
+      g.gain.setValueAtTime(0.5, time);
+      g.gain.exponentialRampToValueAtTime(0.3, time + 0.025);
+      g.gain.exponentialRampToValueAtTime(0.00001, time + 0.3);
+
+      o.connect(g).connect(ctx.destination);
+      o.start(time);
+      o.stop(time + 0.3);
+    },
+    [getAudioContext],
+  );
+
+  const errorSound = useCallback(
+    (time) => {
+      const ctx = getAudioContext();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+
+      o.type = "sawtooth";
+      o.frequency.setValueAtTime(82.41, time);
+      o.frequency.setValueAtTime(77.78, time + 0.21);
+
+      g.gain.setValueAtTime(0.1, time);
+      g.gain.setValueAtTime(0.00001, time + 0.1);
+      g.gain.setValueAtTime(0.1, time + 0.2);
+
+      o.connect(g).connect(ctx.destination);
+      o.start(time);
+      o.stop(time + 0.4);
+    },
+    [getAudioContext],
+  );
+
+  const blipSound = useCallback(
+    (time) => {
+      const ctx = getAudioContext();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+
+      o.type = "square";
+      o.frequency.setValueAtTime(10500, time);
+      o.frequency.exponentialRampToValueAtTime(2700, time + 0.0025);
+
+      g.gain.setValueAtTime(0.1, time);
+      g.gain.exponentialRampToValueAtTime(0.00001, time + 1);
+
+      o.connect(g).connect(ctx.destination);
+      o.start(time);
+      o.stop(time + 1);
+    },
+    [getAudioContext],
+  );
+
+  // --- Public Methods API ---
+
+  const play = useCallback(
+    (soundName) => {
+      const ctx = getAudioContext();
+      const now = ctx.currentTime;
+
+      switch (soundName) {
+        case "success": // Maps to your blip sound (on success)
+          blipSound(now);
+          break;
+        case "warning": // Maps to warn sound
+          warnSound(now);
+          break;
+        case "error": // Maps to error sound
+          errorSound(now);
+          break;
+        case "inspection-init":
+          clickySound(now, 1000);
+          clickySound(now + 0.12, 1700);
+          clickySound(now + 0.2, 2300);
+          break;
+        case "inspection-reset":
+          clickySound(now, 2300);
+          clickySound(now + 0.2, 1000);
+          break;
+        case "inspection-end":
+          pluckSound(now);
+          break;
+        default:
+          console.warn(`Sound effect "${soundName}" not found.`);
       }
-    };
-  }, []);
+    },
+    [
+      getAudioContext,
+      blipSound,
+      warnSound,
+      errorSound,
+      clickySound,
+      pluckSound,
+    ],
+  );
 
-  return { playTone, isPlaying };
+  return { play };
 }
