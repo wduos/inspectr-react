@@ -1,0 +1,121 @@
+.Outbound {
+  margin-top: 3.3rem;
+  height: calc(100vh - 3.3rem);
+  background-color: white;
+  padding: 1rem;
+}
+
+.Outbound > div {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.switch-label-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.25rem;
+}
+.switch-label-wrapper label {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+#sku-prefix-switch {
+  position: relative;
+  width: 3rem;
+  height: 1.6rem;
+  border-radius: var(--radius);
+  border: none;
+  background-color: var(--dark);
+}
+#sku-prefix-switch::after {
+  position: absolute;
+  top: 0.1rem;
+  left: 0.1rem;
+  content: "";
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background-color: white;
+  transform: scale(-50%);
+  outline: 10px solid rgba(255, 255, 255, 0.2);
+  transition-property: left, outline, transform;
+  transition: cubic-bezier(0.26, 0.19, 0.12, 1.3) 0.15s;
+}
+#sku-prefix-switch.switch-active {
+  background-color: var(--accent);
+}
+
+#sku-prefix-switch.switch-active::after {
+  transform: scale(-65%);
+  outline: 4px solid rgba(255, 255, 255, 0.4);
+  left: 1.5rem;
+}
+
+.Outbound .important-data-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+.Outbound .important-data-wrapper div:nth-child(1) {
+  width: 70%;
+}
+.Outbound .important-data-wrapper div:nth-child(2) {
+  width: 30%;
+}
+
+.Outbound .title-data-wrapper {
+  margin-bottom: 1rem;
+}
+.Outbound .title-data-wrapper h4 {
+  font-size: 1rem;
+  font-size: 0.8rem;
+}
+.Outbound .title-data-wrapper h3 {
+  font-size: 1rem;
+}
+
+.prompt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  width: 100%;
+  min-height: 100%;
+}
+.prompt.shown {
+  display: block;
+}
+.prompt-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.57);
+  backdrop-filter: blur(1px);
+}
+.prompt-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 100%;
+  min-height: 5rem;
+  padding: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
+  background-color: white;
+  transform: translateX(-50%);
+}
+.prompt-wrapper.shown {
+  transform: translate(-50%);
+}
+
+.prompt-wrapper p {
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
