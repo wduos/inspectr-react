@@ -1,31 +1,34 @@
 import "./Outbound.css";
 import { useState, useRef, useEffect } from "react";
+import Toast from "../../components/Toast/Toast";
 import Header from "../../components/Header/Header";
 import { useFx } from "../../Hooks/useFx/useFx";
 
 export default function Outbound() {
   const [input, setInput] = useState("");
-  const [sku, setSku] = useState("");
   const [skuList, setSkuList] = useState([]);
-  const [usePrefix, setUsePrefix] = useState(true);
   const [showFinalizePrompt, setShowFinalizePrompt] = useState(false);
+  const [toastTitle, setToastTitle] = useState("");
+  const [toastDescription, setToastDescription] = useState("");
+  const [toastType, setToastType] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const { play } = useFx();
 
   const inputRef = useRef(null);
 
-  useEffect(() => {
+  /* useEffect(() => {
     play("inspection-init");
-  }, []);
+  }, []); */
 
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
-  }, [usePrefix]);
+  }, []);
 
   useEffect(() => {
-    if (sku) {
+    if (skuList.length > 0) {
       window.history.pushState({ conferenceActive: true }, "");
 
       const handlePopState = () => {
@@ -39,12 +42,19 @@ export default function Outbound() {
         window.removeEventListener("popstate", handlePopState);
       };
     }
-  }, [sku]);
+  }, [skuList]);
+
+  function setToast(title, description, type, show = true) {
+    setToastTitle(title);
+    setToastDescription(description);
+    setToastType(type);
+    setShowToast(show);
+  }
 
   function handleSetSKU(e) {
     let value = e.target.value.replace(/[^0-9]/g, "");
 
-    const maxLength = usePrefix ? 11 : 8;
+    const maxLength = 11;
     if (value.length > maxLength) {
       value = value.slice(0, maxLength);
     }
@@ -58,24 +68,41 @@ export default function Outbound() {
     if (!input) {
       play("warning");
 
+      setToast(
+        "Aviso",
+        "Você precisa escanear uma SKU no campo acima.",
+        "warning",
+      );
+
       return;
     }
 
-    const skuPattern = usePrefix ? /^24010[0-9]{6}$/ : /^10[0-9]{6}$/;
+    const skuPattern = /^24010[0-9]{6}$/;
     if (!skuPattern.test(input)) {
       setInput("");
 
       play("warning");
 
+      setToast("Aviso", "", "warning");
+
       return;
     }
 
-    setSkuList(...skuList, {
-      sku: input,
-      qty: 1,
-    });
+    setSkuList(() => {
+      const existingItem = skuList.find((item) => item.sku.includes(input));
 
-    console.log(sku);
+      console.log(existingItem);
+
+      if (existingItem) {
+        return skuList.map((item) =>
+          item === existingItem
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
+        );
+      }
+
+      return [...skuList, { sku: [input], quantity: 1 }];
+    });
 
     setInput("");
 
@@ -84,9 +111,8 @@ export default function Outbound() {
 
   function resetConference() {
     setShowFinalizePrompt(false);
-    setUsePrefix(true);
     setInput("");
-    setSku("");
+    setSkuList([]);
 
     play("inspection-end");
 
@@ -100,7 +126,9 @@ export default function Outbound() {
         titleTop="Conferência de"
         titleBottom="Outbound"
         backToUrl="/"
-        onBack={sku ? () => setShowFinalizePrompt(true) : undefined}
+        onBack={
+          skuList.length > 0 ? () => setShowFinalizePrompt(true) : undefined
+        }
       />
 
       <div>
@@ -131,49 +159,36 @@ export default function Outbound() {
             autoComplete="off"
             autoCorrect="off"
             spellCheck="off"
-            placeholder={usePrefix ? "Ex.: 24010123456" : "Ex.: 10123456"}
-            maxLength={usePrefix ? "11" : "8"}
+            placeholder="Ex.: 24010123456"
+            maxLength="11"
           />
         </form>
 
-        {!sku && (
-          <div
-            className="switch-label-wrapper"
-            style={{ marginBottom: "1rem" }}
-          >
-            <button
-              className={usePrefix ? "switch-active" : ""}
-              id="sku-prefix-switch"
-              type="button"
-              onClick={() => {
-                setUsePrefix(!usePrefix);
-                setInput("");
-              }}
-            ></button>
-            <label htmlFor="sku-prefix-switch">Usar prefixo</label>
-          </div>
-        )}
+        <Toast
+          title={toastTitle}
+          description={toastDescription}
+          type={toastType}
+          show={showToast}
+        />
 
-        {sku && (
+        {skuList.length > 0 && (
           <div className="important-data-wrapper">
-            {/*<div className="title-data-wrapper">
+            <div className="title-data-wrapper">
               <h4>SKU</h4>
-
-              {skuList.map((sku, index) => {
-                <h3 key={index}>{sku.sku}</h3>;
-              })}
+              {skuList.map((sku) => (
+                <h3>{sku.sku}</h3>
+              ))}
             </div>
             <div className="title-data-wrapper">
               <h4>Caixas</h4>
-
-              {skuList.map((sku, index) => {
-                <h3 key={index}>{sku.qty}</h3>;
-              })}
-            </div> */}
+              {skuList.map((sku) => (
+                <h3>{sku.quantity}</h3>
+              ))}
+            </div>
           </div>
         )}
 
-        {sku && (
+        {skuList.length > 0 && (
           <button
             className="button"
             type="button"

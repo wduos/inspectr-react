@@ -59,16 +59,13 @@
   gap: 0.5rem;
   width: 100%;
 }
-.Outbound .important-data-wrapper div:nth-child(1) {
-  width: 70%;
+.Outbound .important-data-wrapper div div:nth-child(1) {
+  width: calc(70% - 2px);
 }
-.Outbound .important-data-wrapper div:nth-child(2) {
-  width: 30%;
+.Outbound .important-data-wrapper div div:nth-child(2) {
+  width: calc(30% - 2px);
 }
 
-.Outbound .title-data-wrapper {
-  margin-bottom: 1rem;
-}
 .Outbound .title-data-wrapper h4 {
   font-size: 1rem;
   font-size: 0.8rem;

@@ -4,21 +4,6 @@
   padding-bottom: 1rem;
 }
 
-.Home header {
-  width: inherit;
-  padding-block: 1rem;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 1) 40%,
-    rgba(255, 255, 255, 0)
-  );
-}
-.Home header img {
-  display: block;
-  height: 3rem;
-  margin: 0 auto;
-}
-
 .item-list {
   display: flex;
   flex-direction: column;
