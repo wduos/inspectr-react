@@ -147,11 +147,11 @@ export function useFx() {
           clickySound(now + 0.12, 1700);
           clickySound(now + 0.2, 2300);
           break;
-        case "inspection-reset":
+        case "inspection-end":
           clickySound(now, 2300);
           clickySound(now + 0.2, 1000);
           break;
-        case "inspection-end":
+        case "inspection-reset":
           pluckSound(now);
           break;
         default:

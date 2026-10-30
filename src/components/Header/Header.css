@@ -2,8 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: calc(100% - 1rem);
-  padding: 0.2rem 0.5rem;
+  width: 100%;
+  height: 3.75rem;
+  padding: 0 0.75rem;
   border-bottom: solid 1px rgba(0, 0, 0, 0.05);
   background-color: white;
 }
@@ -14,50 +15,115 @@
   gap: 0.5rem;
 }
 
-.Header .header-logo {
+.Header div .header-logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  aspect-ratio: 1/1;
+  background-color: var(--light-tint);
+  border: solid 1px var(--accent-opaque);
+  border-radius: var(--radius-2);
+}
+
+.Header div .header-logo {
   height: 1.3rem;
   aspect-ratio: 1/1;
-  transform: translateY(-5%);
 }
 
 .Header h1 {
   font-size: 1rem;
   font-weight: 700;
-  line-height: 1rem;
+  line-height: 1.2rem;
   letter-spacing: 0.01%;
 }
 
-.Header a,
+.Header h2 {
+  font-size: 0.73rem;
+  font-weight: 500;
+  line-height: 1rem;
+  color: var(--dim);
+}
+
 .Header button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.25rem;
+  width: 1.5rem;
   aspect-ratio: 1/1;
   text-decoration: none;
   background-color: transparent;
-  border: none;
+  border: solid 1px rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-2);
 }
-.Header a svg {
+.Header button svg {
+  height: 1rem;
   fill: var(--dark);
 }
 
-.Header h3 {
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  color: var(--dim);
-  font-weight: 600;
-  line-height: 1.1rem;
-}
-
 .Header .user-info {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.3rem;
 }
 .Header .user-info h2 {
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 0.73rem;
+  font-weight: 600;
+  line-height: 1rem;
+}
+.Header .user-info svg {
+  height: 1.5rem;
+}
+.Header .user-info-pop-menu {
+  position: absolute;
+  top: 1.75rem;
+  right: 0;
+  border: solid 1px rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-2);
+  background-color: white;
+}
+.Header .user-info-pop-menu button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 5rem;
+  height: 2rem;
+  color: var(--red);
+  font-weight: 600;
+  box-shadow: var(--shadow);
+  z-index: 100;
+}
+.Header .user-info-pop-menu button:disabled {
   color: var(--dim);
-  line-height: 1.2rem;
+}
+.Header .user-info-pop-menu button:hover {
+  background-color: var(--light-tint);
+  cursor: pointer;
+}
+.Header .user-info-pop-menu button svg {
+  height: 1.25rem;
+  fill: var(--red);
+}
+.Header .user-info-pop-menu-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(1px);
+}
+
+.Header .login-btn {
+  padding: 0.25rem 0.5rem;
+  width: fit-content;
+  aspect-ratio: unset;
+  font-weight: 600;
+  font-size: 0.73rem;
+  color: white;
+  background-color: var(--accent);
+  border-radius: var(--radius-2);
+  text-decoration: none;
 }

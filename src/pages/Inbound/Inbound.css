@@ -1,8 +1,7 @@
 .Inbound {
-  margin-top: 3.3rem;
-  height: calc(100vh - 3.3rem);
+  height: calc(100vh - 3.75rem);
   background-color: white;
-  padding: 1rem;
+  padding: 0.75rem;
 }
 
 .Inbound > div {
@@ -11,14 +10,14 @@
   margin: 0 auto;
 }
 
-.switch-label-wrapper {
+.Inbound .switch-label-wrapper {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 0.25rem;
 }
-.switch-label-wrapper label {
-  font-size: 0.8rem;
+.Inbound .switch-label-wrapper label {
+  font-size: 0.73rem;
   font-weight: 600;
 }
 #sku-prefix-switch {
@@ -87,7 +86,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.57);
+  background-color: rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(1px);
 }
 .prompt-wrapper {

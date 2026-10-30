@@ -29,7 +29,7 @@ export default function Synth() {
 
   return (
     <>
-      <Header backToUrl="/" titleTop="Synth" titleBottom="Test Engine" />
+      <Header titleTop="Synth" titleBottom="Test Engine" />
 
       <div className="Synth">
         <p>Status: **{isPlaying ? "Playing Note" : "Ready"}**</p>

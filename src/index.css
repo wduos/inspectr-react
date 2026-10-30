@@ -11,7 +11,6 @@
   --yellow: #dbcb19;
   --yellow-1: #e4e116;
   --yellow-opaque: #f1e1314f;
-  --light-tint: #f9f7fd;
   --accent: #794ee3;
   --accent-alt: #4e3caa;
   --accent-opaque: #784ee328;
@@ -21,6 +20,7 @@
   --shadow: 2px 2px 3px rgba(0, 0, 0, 0.05);
   --radius: 1rem;
   --radius-1: 0.5rem;
+  --radius-2: 0.25rem;
 }
 
 @font-face {
@@ -66,8 +66,9 @@ body {
   color: var(--dark);
 }
 
-input[type="text"] {
-  margin-block: 1rem;
+input[type="text"],
+input[type="email"],
+input[type="password"] {
   width: 100%;
   padding: 1rem;
   border: none;
@@ -79,7 +80,9 @@ input[type="text"] {
   font-size: 0.8rem;
   background-color: rgba(0, 0, 0, 0.075);
 }
-input[type="text"]:focus {
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
   outline: solid 2px var(--accent-opaque-1);
   outline-offset: -0.25rem;
 }
@@ -90,7 +93,10 @@ svg {
 }
 
 .mtop {
-  margin-top: 1rem;
+  margin-top: 0.75rem;
+}
+.mbottom {
+  margin-bottom: 0.75rem;
 }
 .flex-5 {
   display: flex;
@@ -175,4 +181,8 @@ svg {
 .button:focus {
   outline: 2px solid rgba(255, 255, 255, 0.5);
   outline-offset: -0.25rem;
+}
+.button:disabled {
+  opacity: 0.65;
+  cursor: wait;
 }

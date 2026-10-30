@@ -125,7 +125,6 @@ export default function Outbound() {
       <Header
         titleTop="Conferência de"
         titleBottom="Outbound"
-        backToUrl="/"
         onBack={
           skuList.length > 0 ? () => setShowFinalizePrompt(true) : undefined
         }

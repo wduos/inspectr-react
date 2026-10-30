@@ -1,132 +1,72 @@
-.page {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  background:
-    radial-gradient(ellipse at top left, #e4eaff, transparent 55%), #f7f8fc;
-  color: #192238;
-  font-family: Inter, system-ui, sans-serif;
-}
-
-.panel {
+.Login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  max-width: 420px;
-  padding: 36px;
+  height: calc(100vh - 3.75rem);
+}
+
+.Login .panel {
+  width: calc(100% - 1.46rem);
+  max-width: 500px;
+  padding: 1.46rem;
   background: white;
-  border: 1px solid #e7eaf2;
-  border-radius: 22px;
-  box-shadow: 0 20px 60px #26365b12;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  background: #5267e8;
-  color: white;
-  font-size: 24px;
-  font-weight: 800;
-  margin-bottom: 26px;
+.Login h1 {
+  font-size: 1.5rem;
+  line-height: 1.75rem;
 }
 
-.eyebrow {
-  color: #5267e8;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1.6px;
-}
-
-h1 {
-  margin: 8px 0;
-  font-size: 29px;
-  letter-spacing: -1px;
-}
-
-.muted,
-.footer-note {
-  color: #7b8497;
-  font-size: 14px;
-  line-height: 1.6;
+.Login p {
+  color: var(--dim);
+  font-size: 0.73rem;
+  line-height: 1rem;
 }
 
 .tabs {
   display: flex;
+  height: 2.8rem;
   padding: 4px;
-  margin: 26px 0 22px;
-  border-radius: 11px;
-  background: #f2f4f9;
+  margin-block: 0.73rem;
+  border-radius: var(--radius-1);
+  background: var(--light-tint);
 }
 
 .tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1;
-  border: 0;
-  border-radius: 8px;
-  padding: 11px 6px;
+  border: none;
+  border-radius: 0.3rem;
+  padding: 0.75rem 0.5rem;
   background: transparent;
-  color: #68728a;
+  color: var(--dim);
   cursor: pointer;
   font-weight: 600;
 }
-
 .tab.active {
   background: white;
-  color: #354bd0;
-  box-shadow: 0 1px 5px #18234312;
+  color: var(--accent);
+  box-shadow: var(--shadow);
 }
 
-label {
+.Login label {
   display: block;
-  margin: 16px 0 8px;
-  font-size: 13px;
+  margin: 0.5rem 0;
+  font-size: 0.73rem;
   font-weight: 700;
-}
-
-input {
-  box-sizing: border-box;
-  width: 100%;
-  padding: 13px 14px;
-  border: 1px solid #dfe3ed;
-  border-radius: 10px;
-  outline: none;
-  font: inherit;
-  font-size: 14px;
-}
-
-input:focus {
-  border-color: #5267e8;
-  box-shadow: 0 0 0 3px #5267e81c;
-}
-
-.primary {
-  width: 100%;
-  margin-top: 22px;
-  padding: 14px;
-  border: 0;
-  border-radius: 10px;
-  background: #5267e8;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.primary:hover {
-  background: #4054d4;
-}
-
-.primary:disabled {
-  opacity: 0.65;
-  cursor: wait;
 }
 
 .message {
-  padding: 10px;
-  border-radius: 8px;
-  background: #f1f4ff;
-  color: #354bd0;
-  font-size: 13px;
+  padding: 0.73rem;
+  border-radius: var(--radius-1);
+  background: var(--light-tint);
+  color: var(--accent) !important;
   overflow-wrap: anywhere;
 }
 

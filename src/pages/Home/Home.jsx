@@ -33,7 +33,7 @@ export default function Home() {
 
   return (
     <>
-      <Header isHomePage={true} />
+      <Header isHomePage={true} pageTitle="Home" />
 
       <div className="Home">
         <section className="item-list">
